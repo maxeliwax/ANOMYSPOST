@@ -1,29 +1,46 @@
+
 import SwiftUI
+import AVKit
+import AVFoundation
 
 struct VideoCardView: View {
     let video: Video
 
     var body: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 8)
-                .frame(width: 72, height: 96)
-                .overlay(Image(systemName: "play.fill").opacity(0.6))
+        GeometryReader { _ in
+            ZStack(alignment: .bottomLeading) {
+                let player = AVPlayer(url: URL(string: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")!)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(video.title).font(.headline)
-                Text(video.caption)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(2)
+                // Fullscreen video layer
+                FullscreenVideoView(player: player)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    .clipped()
+                    .ignoresSafeArea()
 
-                HStack(spacing: 12) {
-                    Label("\(Int(video.duration))s", systemImage: "clock")
-                    Label("\(video.viewCount)", systemImage: "eye")
+                // Overlays
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(video.title)
+                        .font(.headline)
+                    Text(video.caption)
+                        .font(.subheadline)
+                        .lineLimit(2)
+
+                    HStack(spacing: 12) {
+                        Label("\(Int(video.duration))s", systemImage: "clock")
+                        Label("\(video.viewCount) visningar", systemImage: "eye")
+                    }
+                    .font(.caption)
                 }
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.white)
+                .padding()
+                .background(
+                    LinearGradient(colors: [Color.black.opacity(0.8), .clear],
+                                   startPoint: .bottom, endPoint: .top)
+                        .ignoresSafeArea(edges: .bottom)
+                )
             }
-            Spacer()
         }
+        .background(Color.black)
+        .ignoresSafeArea()
     }
 }
