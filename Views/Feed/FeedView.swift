@@ -9,19 +9,23 @@ struct FeedView: View {
     }
 
     var body: some View {
-        List(vm.videos) { video in
-            NavigationLink(value: video) {
-                VideoCardView(video: video)
-            }
-            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-        }
-        .listStyle(.plain)
-        .navigationDestination(for: Video.self) { video in
-            VideoDetailView(video: video)
-                .onAppear {
-                    vm.recordView(of: video, appModel: appModel)
+        GeometryReader { proxy in
+            TabView {
+                ForEach(vm.videos) { video in
+                    VideoDetailView(video: video)
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .rotationEffect(.degrees(-90))
+                        .onAppear {
+                            vm.recordView(of: video, appModel: appModel)
+                        }
                 }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .rotationEffect(.degrees(90), anchor: .topLeading)
+            .offset(x: proxy.size.width)
+            .ignoresSafeArea()
         }
-        .refreshable { vm.load() }
+        .onAppear { vm.load() }
     }
 }

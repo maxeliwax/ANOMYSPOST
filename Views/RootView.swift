@@ -7,17 +7,9 @@ struct RootView: View {
         TabView {
             NavigationStack {
                 FeedView()
-                    .navigationTitle("AnonClips")
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            VStack(spacing: 2) {
-                                Text("AnonClips").font(.headline)
-                                Text("Mina visningar: \(appModel.totalViews)")
-                                    .font(.caption2).foregroundStyle(.secondary)
-                            }
-                        }
-                    }
             }
+            .navigationBarHidden(true)
+            .ignoresSafeArea()
             .tabItem { Label("Feed", systemImage: "play.rectangle.fill") }
 
             NavigationStack {
