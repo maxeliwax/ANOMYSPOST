@@ -21,7 +21,7 @@ struct FeedView: View {
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(width: proxy.size.height, height: proxy.size.width)
+            .frame(width: proxy.size.width, height: proxy.size.height)
             .rotationEffect(.degrees(90), anchor: .topLeading)
             .offset(x: proxy.size.width)
             .ignoresSafeArea()

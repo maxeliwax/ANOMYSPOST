@@ -7,8 +7,9 @@ struct RootView: View {
         TabView {
             NavigationStack {
                 FeedView()
-                    .toolbar(.hidden, for: .navigationBar)
             }
+            .navigationBarHidden(true)
+            .ignoresSafeArea()
             .tabItem { Label("Feed", systemImage: "play.rectangle.fill") }
 
             NavigationStack {
