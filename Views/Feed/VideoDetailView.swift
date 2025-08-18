@@ -2,7 +2,6 @@ import SwiftUI
 
 struct VideoDetailView: View {
     let video: Video
-    @EnvironmentObject private var appModel: AppModel
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
